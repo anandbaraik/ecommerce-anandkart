@@ -6,7 +6,6 @@ export const ProductDetails = () => {
   const { productID } = useParams();
   const { products } = useAppContext();
   const product = products?.find(({ id }) => id == productID);
-  console.log(product);
   return (
     <div>
       <ProductCard {...product} />

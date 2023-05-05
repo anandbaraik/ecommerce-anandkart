@@ -4,7 +4,7 @@ import { Cart } from "./Pages/Cart";
 import { ErrorPage } from "./Pages/ErrorPage";
 import { ProductDetails } from "./Pages/ProductDetails";
 import { ProductList } from "./Pages/ProductList";
-import { WishList } from "./Pages/WishList";
+import { WishLists } from "./Pages/WishLists";
 import "./styles.css";
 
 export default function App() {
@@ -15,7 +15,7 @@ export default function App() {
         <Route path="/" element={<ProductList />} />
         <Route path="/product/:productID" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/wishlist" element={<WishList />} />
+        <Route path="/wishlist" element={<WishLists />} />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
     </div>

@@ -4,16 +4,18 @@ import { fakeFetch } from "../API/fakeFetch";
 const AppContext = createContext({
   products: [],
   cart: [],
+  wishlist: [],
   addToCart: () => {},
-  removeFromCart: (id) => {},
-  addToWishlist: (id) => {},
-  removeFromWishlist: (id) => {}
+  removeFromCart: () => {},
+  addToWishlist: () => {},
+  removeFromWishlist: () => {}
 });
 
 const AppContextProvider = ({ children }) => {
   const URL = "https://example.com/api/products";
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
   const getProducts = async () => {
     try {
@@ -42,6 +44,35 @@ const AppContextProvider = ({ children }) => {
     }
   };
 
+  const removeFromCart = (product) => {
+    const updatedCart = cart?.filter((p) => {
+      return p.id !== product.id;
+    });
+    setCart(updatedCart);
+  };
+
+  const decreaseProductQtyByOne = (product) => {
+    const updatedCart = cart?.filter((p) => {
+      if (p.id === product.id) {
+        --p.quantity;
+        return p.quantity > 0;
+      }
+      return true;
+    });
+    setCart(updatedCart);
+  };
+
+  const addToWishlist = (product) => {
+    const isExist = wishlist?.find(({ id }) => id === product.id);
+    if (!isExist) {
+      setWishlist([...wishlist, { ...product }]);
+    }
+  };
+  const removeFromWishlist = (product) => {
+    const remainingWishList = wishlist?.filter(({ id }) => id !== product.id);
+    setWishlist([...remainingWishList]);
+  };
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -50,7 +81,12 @@ const AppContextProvider = ({ children }) => {
       value={{
         products,
         cart,
-        addToCart
+        wishlist,
+        addToCart,
+        removeFromCart,
+        addToWishlist,
+        removeFromWishlist,
+        decreaseProductQtyByOne
       }}
     >
       {children}
